@@ -3,7 +3,9 @@ WeeWX - weather station software - customizations
 
 #### RWYplotgenerator (work in progress)
 This is a custom generator that uses matplotlib to plot a windvector onto an input image.<BR>
-Example:<BR>
+Example:<P>
+<IMG src='ESMH.png', height=40%, width=40%><BR>
+Becomes:<BR>
 <IMG src='http://nsf.se/wx/ESMH_wind.png', height=50%, width=50%>
 
 
