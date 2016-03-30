@@ -20,7 +20,7 @@ Example:<BR>
 [RWYplotGenerator]
     source_image = [path to source image]
     output_image_dpi = [dpi]
-    output_image_arrow_color = [any color compatible with matplotlib]
+    output_image_arrow_color = [any color definition compatible with matplotlib]
     output_image = [path to output image]
 ```
 
