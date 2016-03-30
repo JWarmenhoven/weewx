@@ -9,7 +9,7 @@ Example:<BR>
 
 #####Configuration/Use:<P>
 - Copy ```RWYplotgenerator.py``` to ```/usr/share/weewx/user```
-- Add the generator to the generators list in your ```skin.conf``` file:
+- Add the generator to ```generator_list``` in your ```skin.conf``` file:
 ```
 [Generators]
     generator_list = weewx.cheetahgenerator.CheetahGenerator, weewx.imagegenerator.ImageGenerator, weewx.reportengine.CopyGenerator, user.RWYplotgenerator.RWYplotgenerator
