@@ -1,5 +1,3 @@
-from __future__ import with_statement
-
 import math
 import matplotlib
 matplotlib.use('Cairo')
@@ -60,28 +58,27 @@ class RWYplotgenerator(weewx.reportengine.ReportGenerator):
         angle = math.radians(270 - windw)
 
         # Create figure - set up container
-        fig = plt.figure(figsize=(3, 3))
-        ax = fig.add_subplot(111)
+        plt.figure(figsize=(3,3))
 
         # Read background image of Runways & insert in plot
         # wrap in try block!
         img = plt.imread(inputimg)
-        ax.imshow(img, origin='lower', zorder=0)
+        plt.imshow(img)
 
         # Disable the axis
-        ax.axis('off')
+        plt.axis('off')
 
         # Set title
         timestamp = time.strftime("%a, %d %b %H:%M", time.localtime())
         title = timestamp + ' LT' + '\n' + str(int(windw)) + ' degrees - ' + str(int(round(windv))) + ' knots'
         fontdict = {'fontsize': 8}
-        ax.set_title(title, fontdict)
+        plt.title(title, fontdict)
 
         # Quiver plot
         # Wind speed (arrow length) is fixed to create constant arrow length
         windv = 200
-        ax.quiver(350, 400, windv * math.cos(angle), windv * math.sin(angle),
-                  angles='xy',
+        plt.quiver(350, 300, windv * math.cos(angle), windv * math.sin(angle),
+                  angles='uv',
                   scale=1.0,
                   scale_units='xy',
                   pivot='middle',
