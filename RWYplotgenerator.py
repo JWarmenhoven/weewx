@@ -7,14 +7,14 @@ import time
 
 import weewx.reportengine
 
-
 def logmsg(lvl, msg):
     syslog.syslog(lvl, 'RWYplotgenerator: %s' % msg)
-
 
 def loginf(msg):
     logmsg(syslog.LOG_INFO, msg)
 
+def logerr(msg):
+    logmsg(syslog.LOG_ERR, msg)
 
 class RWYplotgenerator(weewx.reportengine.ReportGenerator):
     """Class for drawing a windvector on airport runway diagram"""
@@ -22,48 +22,42 @@ class RWYplotgenerator(weewx.reportengine.ReportGenerator):
     def run(self):
         """Main entry point for plot generation"""
 
-        loginf('RWYplotgenerator started!')
-
         t1 = time.time()
-        self.setup()
         self.generateplot()
 
         elapsed_time = time.time() - t1
         loginf('Generated RWYplot in %.2f seconds' % elapsed_time)
 
-    def setup(self):
-        pass
-
     def generateplot(self):
         """Draw plot"""
-        #loginf('Start plotting!')
 
-        inputimg = self.skin_dict['RWYplotGenerator']['source_image']
+        inputimg = self.skin_dict['RWYplotGenerator']['input_image']
         outputimg = self.skin_dict['RWYplotGenerator']['output_image']
-        outputdpi = self.skin_dict['RWYplotGenerator']['output_image_dpi']
+        outputdpi = int(self.skin_dict['RWYplotGenerator']['output_image_dpi'])
         outputarrowcolor = self.skin_dict['RWYplotGenerator']['output_image_arrow_color']
+        outputimg_fontsize = self.skin_dict['RWYplotGenerator']['output_image_fontsize']
+        outputimg_xpos = int(self.skin_dict['RWYplotGenerator']['output_image_xpos'])
+        outputimg_ypos = int(self.skin_dict['RWYplotGenerator']['output_image_ypos'])
 
         default_archive = self.db_binder.get_manager()
         record = default_archive.getRecord(default_archive.lastGoodStamp())
-        #loginf(record)
 
         # Wind direction from database record
         windw = record['windDir']
-
-        # Wind speed from database record
         windv = record['windSpeed']
 
-        # Polar coordinates: convert angle so that vector (wind) with 0 degrees is 'pointing down' (negative
-        # Y-axis and not to the right (postive X-axis), which is customary in a polar grid.
+        # Polar coordinates: convert angle so that vector (wind) with 0 degrees is
+        # 'pointing down' (negative Y-axis) and not to the right (postive X-axis),
+        # which is customary in a polar grid.
         angle = math.radians(270 - windw)
 
-        # Create figure - set up container
-        plt.figure(figsize=(3,3))
-
-        # Read background image of Runways & insert in plot
-        # wrap in try block!
-        img = plt.imread(inputimg)
-        plt.imshow(img)
+        # Read input image
+        try:
+            img = plt.imread(inputimg)
+            plt.imshow(img)
+        except IOError:
+            logerr('Input image not found: {}'.format(inputimg))
+            # Generator continues without a background image
 
         # Disable the axis
         plt.axis('off')
@@ -71,20 +65,21 @@ class RWYplotgenerator(weewx.reportengine.ReportGenerator):
         # Set title
         timestamp = time.strftime("%a, %d %b %H:%M", time.localtime())
         title = timestamp + ' LT' + '\n' + str(int(windw)) + ' degrees - ' + str(int(round(windv))) + ' knots'
-        fontdict = {'fontsize': 8}
+        fontdict = {'fontsize': outputimg_fontsize}
         plt.title(title, fontdict)
 
         # Quiver plot
+        # Currently, the wind speed from database record is not used for shaping the arrow.
         # Wind speed (arrow length) is fixed to create constant arrow length
         windv = 200
-        plt.quiver(350, 300, windv * math.cos(angle), windv * math.sin(angle),
-                  angles='uv',
-                  scale=1.0,
-                  scale_units='xy',
-                  pivot='middle',
-                  width=0.02,
-                  color=outputarrowcolor
-                  )
-        # wrap in try block!
-        plt.savefig(outputimg, dpi=int(outputdpi))
-        plt.close('all')
+        plt.quiver(outputimg_xpos, outputimg_ypos, windv * math.cos(angle),
+                   windv * math.sin(angle), angles='uv', scale=1.0, scale_units='xy',
+                   pivot='middle', width=0.02, color=outputarrowcolor)
+
+        # Write output image
+        try:
+            plt.savefig(outputimg, dpi=outputdpi)
+        except:
+            logerr('Could not write output image: {}'.format(outputimg))
+        finally:
+            plt.close('all')
