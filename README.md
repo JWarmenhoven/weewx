@@ -12,12 +12,12 @@ Output:<BR>
 
 #####Configuration/Use:<P>
 - Copy ```RWYplotgenerator.py``` to ```/usr/share/weewx/user```
-- Add the generator to ```generator_list``` in your ```skin.conf``` file:
+- Add the generator ```user.RWYplotgenerator.RWYplotgenerator``` to ```generator_list``` in your ```skin.conf``` file:
 ```
 [Generators]
     generator_list = weewx.cheetahgenerator.CheetahGenerator, weewx.imagegenerator.ImageGenerator, weewx.reportengine.CopyGenerator, user.RWYplotgenerator.RWYplotgenerator
 ```
-- Insert following block in your ```skin.conf``` file:
+- Insert and customize following block in your ```skin.conf``` file:
 
 ```
 [RWYplotGenerator]
