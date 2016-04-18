@@ -1,14 +1,13 @@
 import math
-import matplotlib
-matplotlib.use('Cairo')
+import matplotlib as mpl
+mpl.use('Cairo')
 import matplotlib.pyplot as plt
 import syslog
 import time
-
 import weewx.reportengine
 
 def logmsg(lvl, msg):
-    syslog.syslog(lvl, 'RWYplotgenerator: %s' % msg)
+    syslog.syslog(lvl, 'RWYplotgenerator: {}'.format(msg))
 
 def loginf(msg):
     logmsg(syslog.LOG_INFO, msg)
@@ -16,28 +15,27 @@ def loginf(msg):
 def logerr(msg):
     logmsg(syslog.LOG_ERR, msg)
 
+
 class RWYplotgenerator(weewx.reportengine.ReportGenerator):
     """Class for drawing a windvector on airport runway diagram"""
 
     def run(self):
         """Main entry point for plot generation"""
 
-        t1 = time.time()
-        self.generateplot()
+        if self._get_rwy_diagram():
+            self.generateplot(self.img)
+        else:
+            logerr('RWYplotgenerator skipped')
 
-        elapsed_time = time.time() - t1
-        loginf('Generated RWYplot in %.2f seconds' % elapsed_time)
-
-    def generateplot(self):
+    def generateplot(self, input_image):
         """Draw plot"""
 
-        inputimg = self.skin_dict['RWYplotGenerator']['input_image']
         outputimg = self.skin_dict['RWYplotGenerator']['output_image']
         outputdpi = int(self.skin_dict['RWYplotGenerator']['output_image_dpi'])
         outputarrowcolor = self.skin_dict['RWYplotGenerator']['output_image_arrow_color']
         outputimg_fontsize = self.skin_dict['RWYplotGenerator']['output_image_fontsize']
-        outputimg_xpos = int(self.skin_dict['RWYplotGenerator']['output_image_xpos'])
-        outputimg_ypos = int(self.skin_dict['RWYplotGenerator']['output_image_ypos'])
+        outputarrow_xpos = int(self.skin_dict['RWYplotGenerator']['output_arrow_xpos'])
+        outputarrow_ypos = int(self.skin_dict['RWYplotGenerator']['output_arrow_ypos'])
 
         default_archive = self.db_binder.get_manager()
         record = default_archive.getRecord(default_archive.lastGoodStamp())
@@ -51,14 +49,8 @@ class RWYplotgenerator(weewx.reportengine.ReportGenerator):
         # which is customary in a polar grid.
         angle = math.radians(270 - windw)
 
-        # Read input image
-        try:
-            img = plt.imread(inputimg)
-            plt.imshow(img)
-        except IOError:
-            logerr('Input image not found: {}'.format(inputimg))
-            # Generator continues without a background image
-
+        # Plot input image
+        plt.imshow(input_image)
         # Disable the axis
         plt.axis('off')
 
@@ -72,7 +64,7 @@ class RWYplotgenerator(weewx.reportengine.ReportGenerator):
         # Currently, the wind speed from database record is not used for shaping the arrow.
         # Wind speed (arrow length) is fixed to create constant arrow length
         windv = 200
-        plt.quiver(outputimg_xpos, outputimg_ypos, windv * math.cos(angle),
+        plt.quiver(outputarrow_xpos, outputarrow_ypos, windv * math.cos(angle),
                    windv * math.sin(angle), angles='uv', scale=1.0, scale_units='xy',
                    pivot='middle', width=0.02, color=outputarrowcolor)
 
@@ -83,3 +75,16 @@ class RWYplotgenerator(weewx.reportengine.ReportGenerator):
             logerr('Could not write output image: {}'.format(outputimg))
         finally:
             plt.close('all')
+
+    def _get_rwy_diagram(self):
+
+        inputimg = self.skin_dict['RWYplotGenerator']['input_image']
+
+        # Read input image
+        try:
+            self.img = plt.imread(inputimg)
+        except IOError:
+            logerr('Input image not found: {}'.format(inputimg))
+            return (False)
+        else:
+            return (True)
