@@ -24,7 +24,7 @@ Output:<BR>
     input_image = path to input image
 
     output_image_dpi = 300
-    output_image_arrow_color = red
+    output_image_arrow_color = red      # http://matplotlib.org/api/colors_api.html
     output_image = path to output image
     output_image_fontsize = 12
     output_arrow_xpos = 350             # (pixel coordinates) You will need to adjust this to place the 
