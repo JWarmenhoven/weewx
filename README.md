@@ -19,7 +19,7 @@ Output:<BR>
 [[RWYplotgenerator]]
   	skin = RWYplotgenerator 
 ```
-- Copy ```skin.conf``` to a your skin directory in 
+- Copy ```skin.conf``` to the skin directory. 
 
 - Customize the ```skin.conf``` file:
 
