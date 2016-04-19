@@ -11,7 +11,7 @@ Output:<BR>
 
 
 #####Configuration/Use:<P>
-- Copy ```RWYplotgenerator.py``` to ```/usr/share/weewx/user```
+- Copy ```RWYplotgenerator.py``` to directory with user extensions. (```/usr/share/weewx/user``` in Debian)
 
 - Insert following to your ```StdReport``` section in your ```weewx.conf``` file:
 
