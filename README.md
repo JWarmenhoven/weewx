@@ -11,14 +11,17 @@ Output:<BR>
 
 
 #####Configuration/Use:<P>
-The below assumes you will add the generator to the skin for ```[[StandardReport]]``` listed in ```weewx.conf```. It should be no problem to create a separate report and corresponding skin for the generator.
 - Copy ```RWYplotgenerator.py``` to ```/usr/share/weewx/user```
-- Add the generator ```user.RWYplotgenerator.RWYplotgenerator``` to ```generator_list``` in your ```skin.conf``` file:
+
+- Insert following to your ```StdReport``` section in your ```weewx.conf``` file:
+
 ```
-[Generators]
-    generator_list = weewx.cheetahgenerator.CheetahGenerator, weewx.imagegenerator.ImageGenerator, weewx.reportengine.CopyGenerator, user.RWYplotgenerator.RWYplotgenerator
+[[RWYplotgenerator]]
+  	skin = RWYplotgenerator 
 ```
-- Insert and customize following block in your ```skin.conf``` file:
+- Copy ```skin.conf``` to a your skin directory in 
+
+- Customize the ```skin.conf``` file:
 
 ```
 [RWYplotGenerator]
