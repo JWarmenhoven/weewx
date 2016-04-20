@@ -1,8 +1,8 @@
 # weewx
 WeeWX - weather station software - customizations
 
-#### RWYplotgenerator (work in progress)
-This is a custom generator that uses matplotlib to plot wind data onto an input image for every report update.<BR>
+#### RWYplotgenerator
+This is a custom generator for weewx that uses matplotlib to plot wind data onto an input image for every report update.<BR>
 Example:<P>
 Input:<BR>
 <IMG src='ESMH.png', height=40%, width=40%><BR>
