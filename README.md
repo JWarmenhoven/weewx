@@ -10,6 +10,10 @@ Output:<BR>
 <IMG src='http://nsf.se/wx/ESMH_wind.png', height=50%, width=50%>
 
 
+#####Requirements:<P>
+- Python plotting module: matplotlib.<BR>
+Can be installed using your package manager (```sudo apt-get install python-matplotlib```) or using pip/conda.
+
 #####Configuration/Use:<P>
 - Copy ```RWYplotgenerator.py``` to directory with user extensions. (```/usr/share/weewx/user``` in Debian)
 
