@@ -56,7 +56,7 @@ class RWYplotgenerator(weewx.reportengine.ReportGenerator):
 
         # Set title
         timestamp = time.strftime('%a, %d %b %H:%M', time.localtime())
-        title = '{} LT\n{} degrees - {:.0f} knots'.format(timestamp, windw, windv)
+        title = '{} LT\n{:.0f} degrees - {:.0f} knots'.format(timestamp, windw, windv)
         fontdict = {'fontsize': outputimg_fontsize}
         plt.title(title, fontdict)
 
