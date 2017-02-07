@@ -2,15 +2,17 @@
 WeeWX - weather station software - customizations
 
 #### RWYplotgenerator
-This is a custom generator for weewx that uses matplotlib to plot wind data onto an input image for every report update.<BR>
+This is a custom generator for weewx that uses matplotlib to plot wind data onto an input image for every report update. This generator only creates the image and you will have to integrate it into a weewx report template yourself.<BR>
 Example:<P>
 Input:<BR>
 <IMG src='ESMH.png', height=40%, width=40%><BR>
 Output:<BR>
 <IMG src='http://nsf.se/wx/ESMH_wind.png', height=50%, width=50%>
-
+<P>
+Online example: http://www.nsf.se/wx/index.html
 
 #####Requirements:<P>
+- Weewx (on a <A href='https://www.raspberrypi.org/products/Raspberry'> Raspberry Pi</A> for example!)
 - Python plotting module: matplotlib.<BR>
 Can be installed using your package manager (```sudo apt-get install python-matplotlib```) or using pip/conda.
 
