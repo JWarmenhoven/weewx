@@ -44,4 +44,6 @@ Can be installed using your package manager (```sudo apt-get install python-matp
 
 ####References:
 WeeWX - Open source software for your weather station<BR>
-http://weewx.com/
+http://weewx.com/<P>
+Raspberry Pi<BR>
+http://www.raspberrypi.org/products
