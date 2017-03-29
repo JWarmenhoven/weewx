@@ -12,7 +12,7 @@ Output:<BR>
 Online example: http://www.nsf.se/wx/index.html
 
 ##### Requirements:<P>
-- Weewx (on a <A href='https://www.raspberrypi.org/products/Raspberry'> Raspberry Pi</A> for example!)
+- Weewx (on a <A href='https://www.raspberrypi.org/products'> Raspberry Pi</A> for example!)
 - Python plotting module: matplotlib.<BR>
 Can be installed using your package manager (```sudo apt-get install python-matplotlib```) or using pip/conda.
 
