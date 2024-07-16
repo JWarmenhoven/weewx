@@ -51,7 +51,7 @@ Can be installed using your package manager (```sudo apt-get install python-matp
 
 
 #### FetchMetarTaf
-Generator that fetches METAR & TAF data for airfields you select in the skin.conf file. It retrieves cached data from <A href='https://aviationweather.gov/data/api/#cache'>Aviation Weather Center</A>.
+Generator that fetches METAR & TAF data for airfields you select in the skin.conf file. It retrieves cached data from <A href='https://aviationweather.gov/data/api/#cache'>Aviation Weather Center</A>. The data is written to two files (raw HTML tables). You will need to create a .tmpl file to have weewx create formatted output.
 
 ##### Requirements:<P>
 - Python pandas
