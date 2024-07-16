@@ -23,11 +23,12 @@ Can be installed using your package manager (```sudo apt-get install python-matp
 
 ```
 [[RWYplotgenerator]]
-  	skin = RWYplotgenerator 
+  skin = RWYplotgenerator
+  enable = true 
 ```
-- Copy ```skin.conf``` to the skin directory. 
+- Copy ```skin.conf``` to the RWYplotgenerator skin directory. 
 
-- Customize the ```skin.conf``` file:
+- Create and customize a ```skin.conf``` file:
 
 ```
 [RWYplotGenerator]
@@ -40,7 +41,47 @@ Can be installed using your package manager (```sudo apt-get install python-matp
     output_arrow_xpos = 350             # (pixel coordinates) You will need to adjust this to place the 
     output_arrow_ypos = 300             # arrow on a specific location on the input image
 
+#
+# The list of generators that are to be run:
+#
+[Generators]
+        generator_list = user.RWYplotgenerator.RWYplotgenerator
+
 ```
+
+
+#### FetchMetarTaf
+Generator that fetches METAR & TAF data for airfields you select in the skin.conf file. It retrieves cached data from <A href='https://aviationweather.gov/data/api/#cache'>Aviation Weather Center</A>.
+
+##### Requirements:<P>
+- Python pandas
+
+##### Configuration/Use:<P>
+- Copy ```FetchMetarTaf.py``` to directory with user extensions. (```/usr/share/weewx/user``` in Debian)
+
+- Insert following to your ```StdReport``` section in your ```weewx.conf``` file:
+```
+[[FetchMetarTaf]]
+  skin = FetchMetarTaf
+  enable = true 
+```
+
+- Create and customize a ```skin.conf``` file for FetchMetarTaf:
+```
+[FetchMetarTaf]
+	metar_url  = https://aviationweather.gov/data/cache/metars.cache.csv.gz
+	taf_url = https://aviationweather.gov/data/cache/tafs.cache.csv.gz
+ 	stations = Comma seperated list of Airport codes     # stations for which to retrieve METAR and TAF
+	metar_dataframe_path = file path  # location to save the dataframe file (.html)
+	taf_dataframe_path = file path
+
+#
+# The list of generators that are to be run:
+#
+[Generators]
+        generator_list = user.FetchMetarTaf.MetarTafLoader
+```
+ 
 
 #### References:
 WeeWX - Open source software for your weather station<BR>
