@@ -73,7 +73,7 @@ Online example: https://nsf.se/wx/NSF_WX/nsf_metar_taf.html
 [FetchMetarTaf]
 	metar_url  = https://aviationweather.gov/data/cache/metars.cache.csv.gz
 	taf_url = https://aviationweather.gov/data/cache/tafs.cache.csv.gz
- 	stations = Comma seperated list of Airport codes     # stations for which to retrieve METAR and TAF
+ 	stations = Comma separated list of Airport codes     # stations for which to retrieve METAR and TAF
 	metar_dataframe_path = file path  # location to save the dataframe file (.html)
 	taf_dataframe_path = file path
 
